@@ -16,6 +16,7 @@ int moves[2][8] = {
 
 // Declaração de funçoes
 // Funçoes M1 a M8 sao responsaveis por verificar se o movimento eh possivel
+//Vou refatorar a logica dos movimentos
 //int possible moves(int i, int j);
 int M1(int i, int j);
 int M2(int i, int j);
