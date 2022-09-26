@@ -5,7 +5,7 @@
 // Definindo as variaveis globais
 int condition; // Condiçao de parada da recursao;
 int rep; // Numero de repetições
-int retrocessos; // Numero de retrocessos
+int regression; // Numero de regression
 int move_count; // Numero de movimentos validos
 int board[SIZE][SIZE]; // Tabuleiro
 int qnt_moves[2][8];// Armazena a quantidade de movimento futuro para cada um dos possiveis movimentos atuais, onde linha 0 é valor e a linha 1 os indices
@@ -26,6 +26,8 @@ void add_move(int i, int j);
 void remove_move(int i, int j); 
 // Faz o passeio do cavalo recursivamente
 void KnightTour(int i, int j); 
+//Troca os valores
+void swap(int* a,int* b);
 // Organiza a matriz "qnt_moves" mantendo os valores fieis aos indices
 void bubble_sort(); 
 // Seta as variaveis para iniciar o passeio
@@ -42,14 +44,14 @@ int main(){
 
     
     print_board();
-    printf("O numero de casas visitadas foi %d \nO numero de movimentos retrocedidos foi %d\n", rep, retrocessos);
+    printf("O numero de casas visitadas foi %d \nO numero de movimentos retrocedidos foi %d\n", rep, regression);
     printf("\n\n");
 
     initialize_board();
     KnightTour(3,3);
 
     print_board();
-    printf("O numero de casas visitadas foi %d \nO numero de movimentos retrocedidos foi %d\n", rep, retrocessos);
+    printf("O numero de casas visitadas foi %d \nO numero de casas retrocedidas foi %d\n", rep, regression);
     
 
     return 0;
@@ -58,7 +60,7 @@ int main(){
 void initialize_board(){
     condition = 0;
     rep = 0;
-    retrocessos = 0;
+    regression = 0;
     move_count = 0;
     for (int i = 0; i < 8; i++){
         qnt_moves[0][i] = 0;
@@ -97,7 +99,7 @@ void add_move(int i, int j){
 }
 
 void remove_move(int i, int j){
-    retrocessos++;
+    regression++;
     board[i][j] = 0;
     move_count--;
 }
@@ -112,16 +114,18 @@ int possible_moves(int i, int j){
     return cont;
 }
 
+void swap(int* a, int* b){
+    int aux = *a;
+    *a = *b;
+    *b = aux;
+}
+
 void bubble_sort(){
-    for (int i = 0; i < 8; i++){
-        for (int j = 0; j < 8; j++){
-            if (qnt_moves[0][i] < qnt_moves[0][j]){
-                int aux = qnt_moves[1][j];
-                qnt_moves[1][j] = qnt_moves[1][i];
-                qnt_moves[1][i] = aux;
-                int aux2 = qnt_moves[0][j];
-                qnt_moves[0][j] = qnt_moves[0][i];
-                qnt_moves[0][i] = aux2;
+    for (int i = 0; i < 8 - 1; i++){
+        for (int j = 0; j < 8 - 1 - i; j++){
+            if (qnt_moves[0][j + 1] < qnt_moves[0][j]){
+                swap(&qnt_moves[1][j], &qnt_moves[1][j + 1]);
+                swap(&qnt_moves[0][j], &qnt_moves[0][j + 1]);
             }
         }
     }
