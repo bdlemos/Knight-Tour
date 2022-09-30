@@ -1,4 +1,8 @@
+#ifndef KNIGHTTOUR_H_
+#define KNIGHTTOUR_H_
+
 #include <stdio.h>
+#include <stdlib.h>
 
 #define SIZE 8
 
@@ -37,24 +41,17 @@ void print_board();
 
 
 
-int main(){
-    
+void passeio(int i, int j){
+    i--;
+    j--;
     initialize_board();
-    KnightTour(0,0);
+    KnightTour(i,j);
 
-    
-    print_board();
-    printf("O numero de casas visitadas foi %d \nO numero de movimentos retrocedidos foi %d\n", rep, regression);
-    printf("\n\n");
-
-    initialize_board();
-    KnightTour(3,3);
-
-    print_board();
-    printf("O numero de casas visitadas foi %d \nO numero de casas retrocedidas foi %d\n", rep, regression);
-    
-
-    return 0;
+    FILE* f = fopen("KnightTour.txt", "a");
+    if (f == NULL) return;
+    print_board(f);
+    fprintf(f, "O numero de casas visitadas foi %d \nO numero de movimentos retrocedidos foi %d\n", rep, regression);
+    fprintf(f, "\n\n");
 }
 
 void initialize_board(){
@@ -73,16 +70,15 @@ void initialize_board(){
     
 }
 
-void print_board(){
+void print_board(FILE *f){
     for (int i = 0; i < SIZE; i++){
         for (int j = 0; j < SIZE ; j++){
-            if(board[i][j] < 10){
-                printf("0%d ", board[i][j]);
-            }else{
-                printf("%d ", board[i][j]);
+            fprintf(f, "%d", board[i][j]);
+            if (j < SIZE - 1){
+                fprintf(f, " ");
             }
         }
-        printf("\n");
+        fprintf(f,"\n");
     }
 }
 
@@ -154,3 +150,5 @@ void KnightTour(int i, int j){
         remove_move(i,j);
     return;
 }
+
+#endif
