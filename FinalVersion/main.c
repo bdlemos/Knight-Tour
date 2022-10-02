@@ -2,7 +2,6 @@
 #include "KnightTour.h"
 
 int main(){
-    passeio(1,1);
-    passeio(8,8);
+    passeio(1,4);
     return 0;
 }
